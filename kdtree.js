@@ -243,6 +243,7 @@ function generateDot(node) {
         cola.push(nodo.right);
     }
     s += "}"
+    console.log(s);
     return s;
 }
 
