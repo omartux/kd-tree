@@ -1,7 +1,7 @@
 ////
 function setup() {
-    var width = 250;
-    var height = 200;
+    var width = 250; //ancho de lienzo
+    var height = 200; //altura de lienzo
 
     var canvas = createCanvas(width, height);
     canvas.parent('sketch_holder');
