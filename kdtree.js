@@ -16,74 +16,78 @@ class N_Point {
     }
 }
 
-function distanceSquared ( point1 , point2 ){
+function distanceSquared(point1, point2) {
     var distance = 0;
-    for (var i = 0; i < k; i ++)
-    distance += Math.pow(( point1 [i] - point2 [i]) , 2) ;
-    return Math.sqrt( distance );
+    for (var i = 0; i < k; i++) 
+        distance += Math.pow((point1[i] - point2[i]), 2);
+        //distancia es  
+        //sqrt((x-x1)^2 + (y-y1)^2)
+    
+    //console.log(distance);
+    return Math.sqrt(distance);
 }
 
-function closest_point_brute_force ( points , point ) {
-    
+function closest_point_brute_force(points, point) {
+    //Se evalua la distancia euclidiana por todos los puntos
+    //Solucion por Fuerza Bruta.
     var closestPoint;
-    var minDistance; 
+    var minDistance;
     var distance;
-    for(var i= 0; i< points.length ;i++){
-        if(i==0){
-            minDistance = distanceSquared(points[0].vectorialSpace,point);
+    for (var i = 0; i < points.length; i++) {
+        if (i == 0) {
+            minDistance = distanceSquared(points[0].vectorialSpace, point);
             closestPoint = points[0].vectorialSpace;
         }
-        distance = distanceSquared(points[i].vectorialSpace,point);
-        
-        if(minDistance >= distance ){
+        distance = distanceSquared(points[i].vectorialSpace, point);
+
+        if (minDistance >= distance) {
             minDistance = distance;
             closestPoint = points[i].vectorialSpace;
         }
     }
-    return  closestPoint;
+    return closestPoint;
 }
 
-function naive_closest_point(node , point , depth = 0, best = null ) {
-    if(node != null){
-        if(depth == 0){
+function naive_closest_point(node, point, depth = 0, best = null) {
+    if (node != null) {
+        if (depth == 0) {
             best = node.point.vectorialSpace;
         }
-       
-        var axisDistance = point[node.axis] - node.point.vectorialSpace[node.axis]; 
+
+        var axisDistance = point[node.axis] - node.point.vectorialSpace[node.axis];
         let distanceBest = distanceSquared(best, point);
-        let distanceNode = distanceSquared(node.point.vectorialSpace,point);
+        let distanceNode = distanceSquared(node.point.vectorialSpace, point);
 
 
-        if ( Math.abs(axisDistance) <= distanceBest ){
-            if(distanceBest > distanceNode){
+        if (Math.abs(axisDistance) <= distanceBest) {
+            if (distanceBest > distanceNode) {
                 best = node.point.vectorialSpace;
             }
-            if(axisDistance > 0){
-                return naive_closest_point (node.right , point , depth+1, best );
+            if (axisDistance > 0) {
+                return naive_closest_point(node.right, point, depth + 1, best);
             }
-            else{
-                return naive_closest_point (node.left , point , depth+1, best);
+            else {
+                return naive_closest_point(node.left, point, depth + 1, best);
             }
-        }else{
+        } else {
             return best;
         }
-    }else{
+    } else {
         return best;
     }
 }
 
-//////////////////////Practica-07   //////////////////////////////////////////
+//
 
-
-function range_query_circle(data , center , radio , queue , depth = 0) {
+function range_query_circle(data, center, radio, queue, depth = 0) { //busqueda por circulo
     let neight = [];
     let root = buildKDTree(data);
 
-    for(let i = 0; i < data.length; ++i) {
+    for (let i = 0; i < data.length; ++i) {
         let arr = [];
         convertKDTreeToArray(root, arr);
-        let closePoint = closest_point(root, center,depth);
-        if(distanceSquared( center,closePoint.point.vectorialSpace) < radio){
+        let closePoint = closest_point(root, center, depth);
+        if (distanceSquared(center, closePoint.point.vectorialSpace) < radio) {
             neight.push(closePoint.point.vectorialSpace);
         }
         deleteNode(arr, closePoint);
@@ -92,22 +96,22 @@ function range_query_circle(data , center , radio , queue , depth = 0) {
     return neight;
 }
 
-function range_query_rec(data , center , diameter , queue , depth = 0) {
+function range_query_rec(data, center, diameter, queue, depth = 0) {
     let neight = [];
     let root = buildKDTree(data);
 
-    for(let i = 0; i < data.length; ++i) {
+    for (let i = 0; i < data.length; ++i) {
         let arr = [];
         convertKDTreeToArray(root, arr);
-        let closePoint = closest_point(root, center,depth);
-        
-        let dimX = [closePoint.point.vectorialSpace[0],0];
-        let centerX =[center[0],0];
+        let closePoint = closest_point(root, center, depth);
 
-        let dimY = [0,closePoint.point.vectorialSpace[1]];
-        let centerY =[0,center[1]];
+        let dimX = [closePoint.point.vectorialSpace[0], 0];
+        let centerX = [center[0], 0];
 
-        if(distanceSquared(centerX,dimX) < diameter && distanceSquared(centerY,dimY) < diameter){
+        let dimY = [0, closePoint.point.vectorialSpace[1]];
+        let centerY = [0, center[1]];
+
+        if (distanceSquared(centerX, dimX) < diameter && distanceSquared(centerY, dimY) < diameter) {
             neight.push(closePoint.point.vectorialSpace);
         }
         deleteNode(arr, closePoint);
@@ -115,17 +119,17 @@ function range_query_rec(data , center , diameter , queue , depth = 0) {
     }
     return neight;
 }
-//////////////////////////////////////////////////////////
+//
 
 
 function closest_point(node, point, depth = 0) {
-    if(node == null) {
+    if (node == null) {
         return null;
     }
 
-    if(point[node.axis] < node.point.vectorialSpace[node.axis]) {
+    if (point[node.axis] < node.point.vectorialSpace[node.axis]) {
         var nextBranch = node.left;
-        var otherBranch = node.right;    
+        var otherBranch = node.right;
     } else {
         var nextBranch = node.right;
         var otherBranch = node.left;
@@ -133,39 +137,39 @@ function closest_point(node, point, depth = 0) {
 
     var temp = closest_point(nextBranch, point, depth + 1);
     var best = closest(temp, node, point);
-    
+
     var distanceBest = distanceSquared(point, best.point.vectorialSpace);
     var distanceAxis = Math.abs(point[node.axis] - node.point.vectorialSpace[node.axis]);
 
-    if(distanceAxis <= distanceBest) {
+    if (distanceAxis <= distanceBest) {
         temp = closest_point(otherBranch, point, depth + 1);
         best = closest(temp, best, point);
     }
-    
+
     return best;
 }
 
 function closest(node, root, point) {
-    if(node == null)
+    if (node == null)
         return root;
-    if(root == null)
+    if (root == null)
         return node;
-    
+
     let distanceNode = distanceSquared(node.point.vectorialSpace, point);
     let distanceRoot = distanceSquared(root.point.vectorialSpace, point);
 
-    if(distanceNode < distanceRoot)
+    if (distanceNode < distanceRoot)
         return node;
     else
         return root;
 }
 
-function convertKDTreeToArray(node,array){
+function convertKDTreeToArray(node, array) {
     array.push(node.point);
-    if(node.left != null)
-        convertKDTreeToArray(node.left,array);
-    if(node.right != null)
-        convertKDTreeToArray(node.right,array);
+    if (node.left != null)
+        convertKDTreeToArray(node.left, array);
+    if (node.right != null)
+        convertKDTreeToArray(node.right, array);
 }
 
 function KNN(data, n, point) {
@@ -183,63 +187,65 @@ function KNN(data, n, point) {
     return neight;
 }
 
+
+
 function deleteNode(arr, node) {
-    for(let i = 0; i < arr.length; ++i) {
-        if(arr[i].vectorialSpace == node.point.vectorialSpace)
+    for (let i = 0; i < arr.length; ++i) {
+        if (arr[i].vectorialSpace == node.point.vectorialSpace)
             arr.splice(i, 1);
     }
 }
 
 function getHeight(node) {
-    if(node === null)
+    if (node === null)
         return 0;
-    
+
     return Math.max(getHeight(node.left), getHeight(node.right)) + 1;
 }
 
 function generateDot(node) {
-    var s = "digraph G{\n";
+    var s = "digraph G{\n node [shape=record];\n"; // cuadrado en vez de circulo
     var cola = [];
     cola.push(node);
-    while(cola.length > 0){
+    while (cola.length > 0) {//rutina que convierte los puntos a codigo DOT
         let nodo = (cola.splice(0, 1))[0];
-        if(nodo.left == null){
+        if (nodo.left == null) {
             continue;
         }
         let space = nodo.point.vectorialSpace.length;
-        for(let i = 0; i < space - 1; ++i){
+        for (let i = 0; i < space - 1; ++i) {
             s += "\"";
             s += nodo.point.vectorialSpace[i];
             s += ",";
         }
         s += nodo.point.vectorialSpace[space - 1];
         s += "\" -> ";
-        for(let i = 0; i < space - 1; ++i){
+        for (let i = 0; i < space - 1; ++i) {
             s += "\"";
             s += nodo.left.point.vectorialSpace[i];
             s += ",";
         }
-        s += nodo.left.point.vectorialSpace[space -1];
+        s += nodo.left.point.vectorialSpace[space - 1];
         s += "\";\n";
         cola.push(nodo.left);
 
         //RIGHT NODE
-        if(nodo.right == null){
+        if (nodo.right == null) {
             continue;
         }
-        for(let i = 0; i < space - 1; ++i){
+        for (let i = 0; i < space - 1; ++i) {
             s += "\"";
             s += nodo.point.vectorialSpace[i];
             s += ",";
         }
         s += nodo.point.vectorialSpace[space - 1];
         s += "\" -> ";
-        for(let i = 0; i < space - 1; ++i){
+        for (let i = 0; i < space - 1; ++i) {
             s += "\"";
             s += nodo.right.point.vectorialSpace[i];
             s += ",";
         }
-        s += nodo.right.point.vectorialSpace[space -1];
+        s += nodo.right.point.vectorialSpace[space - 1];
         s += "\";\n";
         cola.push(nodo.right);
     }
@@ -249,7 +255,7 @@ function generateDot(node) {
 }
 
 function buildKDTree(points, depth = 0) {
-    if(points.length === 0) {
+    if (points.length === 0) {
         return;
     } else {
         mergeSort(points, 0, points.length - 1, depth % points[0].vectorialSpace.length);
@@ -264,17 +270,17 @@ function buildKDTree(points, depth = 0) {
 
         return root;
     }
-    
+
 }
 
-function mergeSort(points, left, right, dim) {
+function mergeSort(points, left, right, dim) { //ordenar para obtener la media o mid
     let mid = Math.floor((left + right) / 2);
 
-    if(left < right) {
+    if (left < right) {
         mergeSort(points, left, mid, dim);
         mergeSort(points, mid + 1, right, dim);
         merge(points, left, mid, right, dim);
-    }   
+    }
 }
 
 function merge(points, left, mid, right, dim) {
@@ -282,18 +288,18 @@ function merge(points, left, mid, right, dim) {
     let i = left;
     let j = mid + 1;
 
-    while(i <= mid && j <= right) {
-        if(points[i].vectorialSpace[dim] <= points[j].vectorialSpace[dim])
+    while (i <= mid && j <= right) {
+        if (points[i].vectorialSpace[dim] <= points[j].vectorialSpace[dim])
             temp.push(points[i++]);
         else
             temp.push(points[j++]);
     }
 
-    while(i <= mid)
+    while (i <= mid)
         temp.push(points[i++]);
-    while(j <= right)
+    while (j <= right)
         temp.push(points[j++]);
 
-    for(let i = left, j = 0; i <= right; ++i, ++j)
+    for (let i = left, j = 0; i <= right; ++i, ++j)
         points[i] = temp[j];
 }

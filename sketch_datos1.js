@@ -4,7 +4,7 @@ function setup(){
 
     var canvas = createCanvas(width, height);
     canvas.parent('sketch_holder');
-    background(0);
+    background(0,51,102);
     for( var x = 0; x < width; x += width / 10){
         for( var y = 0; y < height; y += height /5){
             stroke(125, 125, 125);
@@ -14,7 +14,7 @@ function setup(){
         }
     }
 
-    var point = [140, 90];
+    var point = [140, 90];//query
     
     let point1 = new N_Point([40, 70]);
     let point2 = new N_Point([70, 130]);
@@ -77,7 +77,9 @@ function setup(){
     }
       
     var image = Viz(graph, options);
+    //var image = Viz(graph,'svg');
+
     var graph_holder = document.getElementById('graph_holder');
     
-    graph_holder.innerHTML = image;		// SVG
+    graph_holder.innerHTML = image;		// SVG en el div de imagen
 }
