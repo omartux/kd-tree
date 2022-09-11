@@ -77,8 +77,7 @@ function naive_closest_point(node, point, depth = 0, best = null) {
     }
 }
 
-//
-
+// Funcio
 function range_query_circle(data, center, radio, queue, depth = 0) { //busqueda por circulo
     let neight = [];
     let root = buildKDTree(data);
@@ -204,7 +203,7 @@ function getHeight(node) {
 }
 
 function generateDot(node) {
-    var s = "digraph G{\n node [shape=record];\n"; // cuadrado en vez de circulo
+    var s = "digraph G{\n node [shape=octagon];\n"; // cuadrado en vez de circulo
     var cola = [];
     cola.push(node);
     while (cola.length > 0) {//rutina que convierte los puntos a codigo DOT
