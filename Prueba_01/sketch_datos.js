@@ -1,21 +1,21 @@
 function setup(){
-    var width = 500;
-    var height = 400;
+    var width = 300;
+    var height = 300;
 
     var canvas = createCanvas(width, height);
     canvas.parent('sketch_holder');
     background(0,51,102);
-    for( var x = 0; x < width; x += width / 20){
-        for( var y = 0; y < height; y += height /5){
-            stroke(125, 125, 125);
+    for( var x = 0; x < width; x += width / 6){
+        for( var y = 0; y < height; y += height / 6){
+            stroke(0, 125, 125);
             strokeWeight(1);
+            textSize(10);
             line(x, 0, x, height);
             line(0, y, width, y);
         }
     }
 
     var point = [100, 100];//query
-
     let point1 = new N_Point([106, 189]);
     let point2 = new N_Point([6, 114]);
     let point3 = new N_Point([90, 102]);
@@ -52,7 +52,7 @@ function setup(){
 
     fill(81, 209, 246);
     circle(x, height - y, 7);
-    textSize(8);
+    textSize(14);
     text(x + ',' + y, x + 5, height - y);
 
 
@@ -61,7 +61,7 @@ function setup(){
         y = data[i].vectorialSpace[1];
         fill(255, 255, 255);
         circle(x, height - y, 7);
-        textSize(8);
+        textSize(14);
         text(x + ',' + y, x + 5, height - y);
     }
     
@@ -69,7 +69,7 @@ function setup(){
     y = closestPoint.point.vectorialSpace[1];
     fill(57, 255, 20);
     circle(x, height - y, 7);
-    textSize(8);
+    textSize(14);
     text(x + ',' + y, x + 5, height - y);
     
     // plot graph

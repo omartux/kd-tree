@@ -1,13 +1,13 @@
 ////
 function setup() {
     var width = 1000; //ancho de lienzo
-    var height = 800; //altura de lienzo
+    var height = 1000; //altura de lienzo
     var canvas = createCanvas(width, height);
     canvas.parent('sketch_holder');
     background(0, 51, 102);
-    for (var x = 0; x < width; x += width / 40) {
-        for (var y = 0; y < height; y += height / 20) {
-            stroke(125, 125, 125);
+    for (var x = 0; x < width; x += width / 10) {
+        for (var y = 0; y < height; y += height / 10) {
+            stroke(128, 128, 128);
             strokeWeight(1);
             line(x, 0, x, height);
             line(0, y, width, y);
@@ -15,11 +15,11 @@ function setup() {
     }
 
     var data = [];
-    var point = [100, 100]; // query
+    var point = [500, 500]; // query
 
     //random data
 
-    for (let i = 0; i < 500; i++) { // 500 puntos
+    for (let i = 0; i < 1000; i++) { // 500 puntos
         var x = Math.floor(Math.random() * width);
         var y = Math.floor(Math.random() * height);
         let newPoint = new N_Point([x, y]);
@@ -45,17 +45,15 @@ function setup() {
     //let knnPoints = range_query_circle(data,point, 50, null);
     //console.log(knnPoints);
     //function range_query_rec(data, center, diameter, queue, depth = 0) 
-    let knnPoints = range_query_rec(data, point, 50, 1 ,  null);
+    let knnPoints = range_query_rec(data, point, 200,  null);
     console.log(knnPoints);
-
-
     //plot points
     for (let i = 0; i < data.length; i++) {
         x = data[i].vectorialSpace[0];
         y = data[i].vectorialSpace[1];
         fill(255, 255, 255);
-        circle(x, height - y, 4);
-        textSize(8);
+        circle(x, height - y, 8);
+        textSize(14);
     }
     x = closestPoint2[0];
     y = closestPoint2[1];
@@ -64,17 +62,16 @@ function setup() {
     for (let i = 0; i < knnPoints.length; ++i) {
         x = knnPoints[i][0];
         y = knnPoints[i][1];
-        fill(57, 255, 20);
-        circle(x, height - y, 4);
-        textSize(8);
+        fill(255, 255, 0);
+        circle(x, height - y, 10);
+        textSize(14);
     }
 
     var x = point[0];
     var y = point[1];
-
-    fill(81, 209, 246);
-    circle(x, height - y, 7);
-    textSize(8);
+    fill(255, 0, 0);
+    circle(x, height - y, 15);
+    textSize(14);
     text(x + ',' + y, x + 5, height - y);
 
     // plot graph

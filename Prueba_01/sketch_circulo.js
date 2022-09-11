@@ -1,12 +1,12 @@
 ////
 function setup(){
-    var width = 250;
-    var height = 200;
+    var width = 1000;
+    var height = 1000;
 
     var canvas = createCanvas(width, height);
     canvas.parent('sketch_holder');
     background(0,51,102);
-    for( var x = 0; x < width; x += width / 10){
+    for( var x = 0; x < width; x += width / 5){
         for( var y = 0; y < height; y += height /5){
             stroke(128,128, 128);//borde /******************* */
             strokeWeight(1);
@@ -16,11 +16,11 @@ function setup(){
     }
 
     var data = [];
-    var point = [100,100]; // query
+    var point = [500,500]; // query
     
     //random data
     
-    for(let i = 0; i < 500; i++){ // 500 puntos
+    for(let i = 0; i < 1000; i++){ // 500 puntos
         var x = Math.floor(Math.random() * width);
         var y = Math.floor(Math.random() * height);
         let newPoint = new N_Point([x,y]);
@@ -43,7 +43,7 @@ function setup(){
     console.log("Punto cercano por naive : "+ closestPoint2);
     //console.log("CLOSEST POINT: " + closestPoint3);
 
-    let knnPoints = range_query_circle(data,point, 50, null);
+    let knnPoints = range_query_circle(data,point, 300, null);
     console.log(knnPoints);
     
     //plot points
@@ -51,7 +51,7 @@ function setup(){
         x = data[i].vectorialSpace[0];
         y = data[i].vectorialSpace[1];
         fill(255, 255, 255);
-        circle(x, height - y, 6);//************************ */
+        circle(x, height - y, 8);//************************ */
         //textSize(8);//******************
     }
     x = closestPoint2[0];
@@ -62,16 +62,16 @@ function setup(){
         x = knnPoints[i][0];
         y = knnPoints[i][1];
         fill(255, 255, 0);
-        circle(x, height - y, 6);
-        //textSize(8);
+        circle(x, height - y, 10);
+        //textSize();
     }
     
     var x =  point[0];
     var y =  point[1];
 
     fill(255, 0, 0);
-    circle(x, height - y, 7);
-    textSize(10);
+    circle(x, height - y, 10);
+    textSize(14);
     text(x + ',' + y, x + 5, height - y);   
 
     // plot graph en SVG en el DIV graphholder
